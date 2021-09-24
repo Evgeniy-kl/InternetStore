@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% block content %}
+
+{% if cart.products.count %}<h3 class="text-center mt-5 mb-5">Ваша корзина {% endif %}</h3> <br>
+
+{% if not cart.products.count %}<h3 class="text-center mt-5 mb-5">В вашей корзине ничего нет!<br>
+  <a class="link-dark" href="{% url 'base' %}">Перейти к товарам</a>
+  </h3>
+<div class="d-flex justify-content-center align-items-center">
+<svg width="142" height="300" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M35.5 143.99l.7 7.786-12.1 9.762-7.1-6.856 5.7-8.716 12.2-9.646.6 7.67zM53.201 60.318c.8 0 1.5-.581 1.5-1.395l.6-35.212c.2-11.737 10.4-21.15 22.8-20.918 12.4.232 22.3 9.878 22 21.731l-.6 35.212c0 .814.6 1.395 1.4 1.395.8 0 1.5-.581 1.5-1.395l.6-35.212c.2-13.248-11-24.288-24.9-24.52-14-.233-25.5 10.459-25.8 23.707l-.6 35.212c0 .813.7 1.395 1.5 1.395z" fill="#CFCFCF"></path><path d="M25.102 162.701l6-6.857-7-112.028-4.6 2.673-7.5 1.395 13.1 114.817z" fill="#E7E7E7"></path><path d="M19.5 46.488l3 88.67L12 47.883l7.5-1.395z" fill="#ECECEC"></path><path d="M137.6 45.56L24 43.816l4.4 112.261 116.6.348-7.4-110.865z" fill="#DFDFDF"></path><path d="M.6 161.77L120.7 167l.8-117.258-109.6-1.86L.6 161.77z" fill="#F4F4F4"></path><path d="M52.602 94.266l-2.9-2.899a.519.519 0 10-.733.734L51.868 95l-2.9 2.899a.519.519 0 00.734.734l2.9-2.899 2.899 2.899a.519.519 0 10.734-.734L53.335 95l2.9-2.899a.519.519 0 10-.734-.734l-2.9 2.899zM84.602 95.266l-2.9-2.899a.519.519 0 10-.733.734L83.868 96l-2.9 2.899a.519.519 0 00.734.734l2.9-2.899 2.899 2.899a.519.519 0 10.734-.734L85.335 96l2.9-2.899a.519.519 0 10-.734-.734l-2.9 2.899z" fill="#959595" stroke="#959595"></path><path d="M120.7 167l24.3-10.576-7.4-110.865-9.1 1.627-7 2.556L120.7 167z" fill="#F4F4F4"></path><path d="M128.498 47.188l1.9 101.685-9.8 18.129.9-117.374 7-2.44z" fill="#ECECEC"></path><path d="M145 156.425l-14.6-7.554L120.6 167l24.4-10.575z" fill="#E7E7E7"></path><path d="M90.498 63.922c0-1.51 1.4-2.79 3-2.79s2.9 1.28 2.9 2.79-1.4 2.789-3 2.789-2.9-1.278-2.9-2.79z" fill="#CFCFCF"></path><path d="M91.8 63.92c0-.93.8-1.627 1.7-1.627.9 0 1.7.697 1.7 1.627s-.8 1.627-1.7 1.627c-1 0-1.7-.814-1.7-1.627z" fill="#fff"></path><path d="M42.702 63.105c0-1.51 1.4-2.789 3-2.789s2.9 1.279 2.9 2.79c0 1.51-1.4 2.788-3 2.788s-2.9-1.278-2.9-2.789z" fill="#CFCFCF"></path><path d="M44.002 63.104c0-.93.8-1.627 1.7-1.627.9 0 1.7.697 1.7 1.627s-.8 1.627-1.7 1.627c-1 0-1.7-.698-1.7-1.627z" fill="#fff"></path><path d="M45.601 64.268c.8 0 1.5-.581 1.5-1.395l.7-35.096c.2-11.737 10.4-21.15 22.8-20.918 12.4.233 22.3 9.878 22 21.732l-.6 35.212c0 .813.6 1.394 1.4 1.394.8 0 1.5-.58 1.5-1.394l.6-35.212c.2-13.248-11-24.288-24.9-24.52-14-.233-25.5 10.458-25.8 23.706l-.6 35.212c0 .698.6 1.279 1.4 1.279z" fill="#CFCFCF"></path><rect x="46.031" y="122.266" width="42" height="1" rx="0.5" transform="rotate(2 46.031 122.266)" fill="#fff" stroke="#959595"></rect></svg>
+</div>
+{% endif %}
+{% if cart.products.count %}
+<table class="table m-2 ml-5 table-bordered table-hover">
+  <thead>
+    <tr class="table-info">
+      <th scope="col">Наименование</th>
+      <th scope="col">Изображение</th>
+
+        <th scope="col">Кол-во</th>
+        <th scope="col">Цена</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart.products.all %}
+        <tr>
+          <th scope="row">{{ item.product.title }}</th>
+          <td class="w-25"><img src="{{ item.product.image.url }}" class="img-fluid"></td>
+          <td>{{ item.content_object.price }} руб.</td>
+          <td>
+            <form action="{% url 'change_qty' slug=item.product.slug %}" method="POST">
+              {% csrf_token %}
+              <input type="number" class="form-control" name="qty" style="width: 70px;" min="1" value="{{ item.qty }}">
+              <br>
+              <input type="submit" class="btn btn-outline-info" value="Изменить">
+            </form>
+          </td>
+            <td>{{ item.final_price }} руб.</td>
+          <td >
+            <a href="{% url 'delete_from_cart' slug=item.product.slug %}"><button class="btn btn-outline-danger">Удалить из корзины</button></a>
+          </td>
+        </tr>
+    {% endfor %}
+        <tr>
+          <td colspan="2"></td>
+          <td>Итого:</td>
+          <td>{{ cart.total_products }}</td>
+          <td><strong>{{ cart.final_price }} руб.</strong></td>
+          <td><a href="{% url 'checkout' %}"><button class="btn btn-outline-success">Перейти к оформлению</button></a></td>
+        </tr>
+  </tbody>
+</table>
+{% endif %}
+{% endblock content %}
+{% endblock main %}

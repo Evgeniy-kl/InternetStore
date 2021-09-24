@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+{% block content %}
+<h3 class="text-center mt-5 mb-5">История заказов аккаунта {{request.user}}</h3><br>
+
+
+<table class="table m-2 ml-5 table-bordered table-hover">
+  <thead>
+    <tr class="table-info">
+      <th scope="col">#</th>
+      <th scope="col">На имя</th>
+      <th scope="col">Адрес</th>
+      <th scope="col">Товар</th>
+        <th scope="col">Статус</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for el in orders %}
+        <tr>
+          <th scope="row">{{ el }}</th>
+          <th scope="row">{{ el.first_name }} {{ el.last_name }}</th>
+            <th scope="row">{{ el.address }}</th>
+            <th scope="row">
+              {% for pr in el.cart.products.all %}
+              {{ pr }}<br>
+            {% endfor%}
+            </th>
+          <th scope="row">{{el.status}}</th>
+
+        </tr>
+
+  {% endfor%}
+  </tbody>
+</table>
+
+{% endblock content %}
+{% endblock main %}

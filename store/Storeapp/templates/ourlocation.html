@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Shop</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}" type="text/css">
+
+  <!-- API YANDEX MAPS -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=00a306cd-2e28-494f-b3fe-c08ba3bdb64d&lang=ru_RU" type="text/javascript">
+    </script>
+
+</head>
+<style>
+
+</style>
+<body>
+
+  <!-- Navigation -->
+  <header class="blog-header py-3 m-3" >
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+            <a class="text-muted" href="{% url 'cart' %}">Корзина ({{ cart.products.count }})</a>
+          </div>
+          <div class="col-4 text-center">
+            <a class="blog-header-logo text-dark" href="{% url 'base' %}" style="font-size:20px;">Tech Store</a>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="text-muted" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+            </a>
+              {% if not request.user.is_authenticated %}
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'login' %}">Sign up</a>
+              {% else %}
+              <li class="nav-item">
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'history' %}">{% if request.user.is_authenticated %}{{ request.user.username }}{% endif %}</a>
+              </li>
+            <a href="{% url 'logout' %}" class="nav-link" style="color:black;">  Выйти</a>
+                        {% endif %}
+
+          </div>
+        </div>
+      </header>
+<script type="text/javascript">
+    // Функция ymaps.ready() будет вызвана, когда
+    // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+    ymaps.ready(init);
+    function init(){
+        // Создание карты.
+        var myMap = new ymaps.Map("map", {
+            // Координаты центра карты.
+            // Порядок по умолчанию: «широта, долгота».
+            // Чтобы не определять координаты центра карты вручную,
+            // воспользуйтесь инструментом Определение координат.
+            center: [53.9, 27.5667],
+            // Уровень масштабирования. Допустимые значения:
+            // от 0 (весь мир) до 19.
+            zoom: 6
+        });
+
+        var myPlacemark = new ymaps.Placemark([53.9, 27.5667]);
+        var myPlacemark2 = new ymaps.Placemark([54.51, 30.4172]);
+        var myPlacemark3 = new ymaps.Placemark([53.13, 26.01]);
+        var myPlacemark4 = new ymaps.Placemark([52.43, 30.9754]);
+
+        myMap.geoObjects.add(myPlacemark);
+        myMap.geoObjects.add(myPlacemark2);
+        myMap.geoObjects.add(myPlacemark3);
+        myMap.geoObjects.add(myPlacemark4);
+    }
+
+
+</script>
+<div class="center-block mt-5" >
+<div class="col-md-6 offset-md-3">
+     <div id="map" style="width:800px;height:500px;"></div>
+
+ </div>
+</div>
+
+
+  <!-- /.container -->
+  <div style="height:150px;"></div>
+
+
+  <!-- Footer -->
+  <footer class="py-3 my-4 m-2">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="{% url 'map' %}" class="nav-link px-2 text-muted">Location</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2021 Tech Store</p>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
