@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render
 from django.views.generic import View
 from django.http import HttpResponseRedirect, JsonResponse
@@ -8,10 +9,14 @@ from django.http import HttpResponseRedirect, JsonResponse
 from .models import CategoryFeature, FeatureValidator, ProductFeatures
 from .forms import NewCategoryFeatureKeyForm, NewCategoryForm
 from Storeapp.models import Category, Product
+from django.contrib.auth.decorators import user_passes_test
+
+
+def staff_required(login_url=None):
+    return user_passes_test(lambda u: u.is_staff, login_url=login_url)
 
 
 class BaseSpecView(View):
-
     def get(self, request, *args, **kwargs):
         return render(request, 'product_features.html', {})
 

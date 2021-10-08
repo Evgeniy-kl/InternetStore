@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-vei=(-eu+xxv*8u3cmwdjkc&g**zvs+)p*6yyisy%h_!*w(q+#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0',
+                 '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'specs',
     'django_filters',
+    'psycopg2'
 
 ]
 
@@ -83,12 +85,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
  'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'InternetStore',
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'postgres',
     'USER': 'postgres',
-    'PASSWORD': '123123',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
+    'PASSWORD': 'postgres',
+    'HOST': 'db',
+    'PORT': 5432,
     }
 }
 

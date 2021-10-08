@@ -176,6 +176,7 @@ class CheckoutView(LoginRequiredMixin, CartMixin, View):
             'categories': categories,
             'form': form
         }
+
         return render(request, 'checkout.html', context)
 
 
